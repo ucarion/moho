@@ -14,17 +14,17 @@ module Moho
 
       private
 
-      STRING_REGEX = "\\\"(\\\\.|[^\\\"])*\\\""
+      STRING_REGEX = /\"(\\.|[^\"])*\"/
 
-      SYMBOL_OPERATOR_REGEX = "([+\\-*/><=]+)"
-      SYMBOL_NAME_REGEX = "([a-z](\\w+)?)"
-      SYMBOL_REGEX = "(#{SYMBOL_OPERATOR_REGEX}|#{SYMBOL_NAME_REGEX})"
+      SYMBOL_OPERATOR_REGEX = /([+\-*\/><=]+)/
+      SYMBOL_NAME_REGEX = /([a-z](\w+)?)/
+      SYMBOL_REGEX = /(#{SYMBOL_OPERATOR_REGEX}|#{SYMBOL_NAME_REGEX})/
 
       def next_token(str)
-        try_match(str, Whitespace, "\\s+") ||
-          try_match(str, LParen, "\\(") ||
-          try_match(str, RParen, "\\)") ||
-          try_match(str, Int, "\\d+") ||
+        try_match(str, Whitespace, /\s+/) ||
+          try_match(str, LParen, /\(/) ||
+          try_match(str, RParen, /\)/) ||
+          try_match(str, Int, /\d+/) ||
           try_match(str, String, STRING_REGEX) ||
           try_match(str, Symbol, SYMBOL_REGEX)
       end
@@ -36,7 +36,7 @@ module Moho
       end
 
       def get_match(str, regex)
-        match_data = str.match(Regexp.new('\A' + regex))
+        match_data = str.match(Regexp.new('\A' + regex.source))
         match_data[0] if match_data
       end
     end
