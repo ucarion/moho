@@ -15,12 +15,15 @@ module Moho
       private
 
       def next_token(str)
-        if match = get_match(str, /\(/)
-          [LParen.new, str[match.length .. -1]]
-        elsif match = get_match(str, /\)/)
-          [RParen.new, str[match.length .. -1]]
-        elsif match = get_match(str, /\d+/)
-          [Int.new(match), str[match.length .. -1]]
+        try_match(str, LParen, /\(/) ||
+          try_match(str, RParen, /\)/) ||
+          try_match(str, Int, /\d+/) ||
+          try_match(str, String, /\"(\\.|[^\"])*\"/)
+      end
+
+      def try_match(str, token_klass, regex)
+        if match = get_match(str, regex)
+          [token_klass.new(match), str[match.length..-1]]
         end
       end
 
@@ -34,20 +37,15 @@ module Moho
     end
 
     class LParen < Token
-      def initialize
-        super
-        self.text = '('
-      end
     end
 
     class RParen < Token
-      def initialize
-        super
-        self.text = ')'
-      end
     end
 
     class Int < Token
+    end
+
+    class String < Token
     end
   end
 end
