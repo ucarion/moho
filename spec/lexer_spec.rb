@@ -30,4 +30,17 @@ describe Moho::Lexer do
       expect(Moho::Lexer.tokenize(sym)).to eq [Moho::Lexer::Symbol.new(sym)]
     end
   end
+
+  it "puts it all together" do
+    str = "(a 1 \"s\")"
+    tokens = [
+      Moho::Lexer::LParen.new('('),
+      Moho::Lexer::Symbol.new('a'),
+      Moho::Lexer::Int.new('1'),
+      Moho::Lexer::String.new('"s"'),
+      Moho::Lexer::RParen.new(')')
+    ]
+
+    expect(Moho::Lexer.tokenize(str)).to eq tokens
+  end
 end

@@ -6,7 +6,7 @@ module Moho
 
         until str.empty?
           token, str = next_token(str)
-          tokens << token
+          tokens << token if token.should_add?
         end
 
         tokens
@@ -17,11 +17,12 @@ module Moho
       STRING_REGEX = "\\\"(\\\\.|[^\\\"])*\\\""
 
       SYMBOL_OPERATOR_REGEX = "([+\\-*/><=]+)"
-      SYMBOL_NAME_REGEX = "([a-z]\\w+)"
+      SYMBOL_NAME_REGEX = "([a-z](\\w+)?)"
       SYMBOL_REGEX = "(#{SYMBOL_OPERATOR_REGEX}|#{SYMBOL_NAME_REGEX})"
 
       def next_token(str)
-        try_match(str, LParen, "\\(") ||
+        try_match(str, Whitespace, "\\s+") ||
+          try_match(str, LParen, "\\(") ||
           try_match(str, RParen, "\\)") ||
           try_match(str, Int, "\\d+") ||
           try_match(str, String, STRING_REGEX) ||
@@ -41,6 +42,9 @@ module Moho
     end
 
     class Token < Struct.new(:text)
+      def should_add?
+        true
+      end
     end
 
     class LParen < Token
@@ -56,6 +60,12 @@ module Moho
     end
 
     class Symbol < Token
+    end
+
+    class Whitespace < Token
+      def should_add?
+        false
+      end
     end
   end
 end
