@@ -22,4 +22,12 @@ describe Moho::Lexer do
 
     expect(Moho::Lexer.tokenize(str)).to eq tokens
   end
+
+  it "tokenizes symbols" do
+    symbols = ["hello", "+", "atan2", ">>="]
+
+    symbols.each do |sym|
+      expect(Moho::Lexer.tokenize(sym)).to eq [Moho::Lexer::Symbol.new(sym)]
+    end
+  end
 end

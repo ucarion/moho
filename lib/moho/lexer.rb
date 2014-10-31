@@ -14,11 +14,16 @@ module Moho
 
       private
 
+      SYMBOL_OPERATOR_REGEX = "([+\\-*/><=]+)"
+      SYMBOL_NAME_REGEX = "([a-z]\\w+)"
+      SYMBOL_REGEX = /(#{SYMBOL_OPERATOR_REGEX}|#{SYMBOL_NAME_REGEX})/
+
       def next_token(str)
         try_match(str, LParen, /\(/) ||
           try_match(str, RParen, /\)/) ||
           try_match(str, Int, /\d+/) ||
-          try_match(str, String, /\"(\\.|[^\"])*\"/)
+          try_match(str, String, /\"(\\.|[^\"])*\"/) ||
+          try_match(str, Symbol, SYMBOL_REGEX)
       end
 
       def try_match(str, token_klass, regex)
@@ -46,6 +51,9 @@ module Moho
     end
 
     class String < Token
+    end
+
+    class Symbol < Token
     end
   end
 end
