@@ -1,10 +1,6 @@
 module Moho
   class Lexer
     class << self
-      def lex(str)
-        Lang::Int.new(str.to_i)
-      end
-
       def tokenize(str)
         tokens = []
 
@@ -23,6 +19,8 @@ module Moho
           [LParen.new, str[match.length .. -1]]
         elsif match = get_match(str, /\)/)
           [RParen.new, str[match.length .. -1]]
+        elsif match = get_match(str, /\d+/)
+          [Int.new(match), str[match.length .. -1]]
         end
       end
 
@@ -47,6 +45,9 @@ module Moho
         super
         self.text = ')'
       end
+    end
+
+    class Int < Token
     end
   end
 end

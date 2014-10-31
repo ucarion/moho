@@ -7,6 +7,13 @@ describe Moho::Lexer do
 
     expect(Moho::Lexer.tokenize(str)).to eq tokens
   end
+
+  it "tokenizes numbers" do
+    str = "123"
+    tokens = [Moho::Lexer::Int.new("123")]
+
+    expect(Moho::Lexer.tokenize(str)).to eq tokens
+  end
   # it "tokenizes simple strings" do
   #   phrase = "(define pi 3.14)"
   #   tokens = ["(", "define", "pi", "3.14", ")"]
