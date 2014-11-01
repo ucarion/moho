@@ -43,4 +43,11 @@ describe Moho::Lexer do
 
     expect(Moho::Lexer.tokenize(str)).to eq tokens
   end
+
+  it "raises an error when nothing is recognized" do
+    str = "\"unclosed quote"
+    expect do
+      Moho::Lexer.tokenize(str)
+    end.to raise_error(Moho::Lexer::LexError)
+  end
 end

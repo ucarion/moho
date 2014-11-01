@@ -21,12 +21,13 @@ module Moho
       SYMBOL_REGEX = /(#{SYMBOL_OPERATOR_REGEX}|#{SYMBOL_NAME_REGEX})/
 
       def next_token(str)
-        try_match(str, Whitespace, /\s+/) ||
-          try_match(str, LParen, /\(/) ||
-          try_match(str, RParen, /\)/) ||
-          try_match(str, Int, /\d+/) ||
-          try_match(str, String, STRING_REGEX) ||
-          try_match(str, Symbol, SYMBOL_REGEX)
+        try_match(str, Whitespace, /\s+/) or
+          try_match(str, LParen, /\(/) or
+          try_match(str, RParen, /\)/) or
+          try_match(str, Int, /\d+/) or
+          try_match(str, String, STRING_REGEX) or
+          try_match(str, Symbol, SYMBOL_REGEX) or
+          raise LexError
       end
 
       def try_match(str, token_klass, regex)
@@ -39,6 +40,9 @@ module Moho
         match_data = str.match(Regexp.new('\A' + regex.source))
         match_data[0] if match_data
       end
+    end
+
+    class LexError < StandardError
     end
 
     class Token < Struct.new(:text)
