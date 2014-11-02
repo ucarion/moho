@@ -1,6 +1,9 @@
 module Moho
   module Lang
-    class Int < Struct.new(:value)
+    class Expression < Struct.new(:value)
+    end
+
+    class Int < Expression
     end
   end
 end
