@@ -1,5 +1,5 @@
 module Moho
-  class Lexer
+  module Lexer
     class << self
       def tokenize(str)
         tokens = []
