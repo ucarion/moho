@@ -5,5 +5,8 @@ module Moho
 
     class Int < Expression
     end
+
+    class String < Expression
+    end
   end
 end

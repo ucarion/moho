@@ -6,6 +6,9 @@ module Moho
       case token
       when Lexer::Int
         Lang::Int.new(token.text.to_i)
+      when Lexer::String
+        without_quotes = token.text[1...-1]
+        Lang::String.new(without_quotes)
       end
     end
   end
