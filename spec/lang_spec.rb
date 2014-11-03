@@ -18,12 +18,12 @@ describe Moho::Lang do
   end
 
   it 'works with if' do
-    str = '(if 1 "yes" "no")'
+    str = '(if #t "yes" "no")'
     expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
 
     expect(expression.eval).to eq 'yes'
 
-    str = '(if 0 "yes" "no")'
+    str = '(if #f "yes" "no")'
     expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
 
     expect(expression.eval).to eq 'no'
