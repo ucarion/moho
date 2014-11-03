@@ -9,10 +9,6 @@ describe Moho::Lang do
     expect(Moho::Lang::String.new('a').eval).to eq 'a'
   end
 
-  it 'evaluates symbols' do
-    expect(Moho::Lang::Symbol.new('a').eval).to eq :a
-  end
-
   it 'works with quote' do
     str = '(quote (1))'
     expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
@@ -31,5 +27,12 @@ describe Moho::Lang do
     expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
 
     expect(expression.eval).to eq 'no'
+  end
+
+  it 'works with lambda' do
+    str = '((lambda (x) (+ 1 x)) 3)'
+    expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
+
+    expect(expression.eval).to eq 4
   end
 end
