@@ -11,5 +11,8 @@ module Moho
 
     class Symbol < Expression
     end
+
+    class List < Expression
+    end
   end
 end

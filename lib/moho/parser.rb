@@ -2,7 +2,7 @@ module Moho
   class Parser
     class << self
       def parse(tokens)
-        token = tokens[0]
+        token = tokens.shift
 
         case token
         when Lexer::Int
@@ -12,6 +12,13 @@ module Moho
           handle_literal(token, Lang::String) { |text| text[1...-1] }
         when Lexer::Symbol
           handle_literal(token, Lang::Symbol, &:to_s)
+        when Lexer::LParen
+          list_elems = []
+
+          list_elems << parse(tokens) until tokens[0].is_a?(Lexer::RParen)
+          tokens.shift # pop off the final ')'
+
+          Lang::List.new(list_elems)
         end
       end
 

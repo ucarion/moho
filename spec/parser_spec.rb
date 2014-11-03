@@ -15,4 +15,15 @@ describe Moho::Parser do
     tokens = Moho::Lexer.tokenize('a')
     expect(Moho::Parser.parse(tokens)).to eq Moho::Lang::Symbol.new('a')
   end
+
+  it 'parses lists' do
+    tokens = Moho::Lexer.tokenize('(max 1 2)')
+    ast = Moho::Lang::List.new([
+      Moho::Lang::Symbol.new('max'),
+      Moho::Lang::Int.new(1),
+      Moho::Lang::Int.new(2)
+    ])
+
+    expect(Moho::Parser.parse(tokens)).to eq ast
+  end
 end
