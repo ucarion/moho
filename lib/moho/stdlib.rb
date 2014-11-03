@@ -14,6 +14,7 @@ module Moho
         env['-'] = minus
         env['*'] = times
         env['/'] = div
+        env['='] = eq
 
         env
       end
@@ -32,6 +33,10 @@ module Moho
 
       def div
         -> (args) { args[0] / args[1] }
+      end
+
+      def eq
+        -> (args) { args[0] == args[1] }
       end
     end
   end

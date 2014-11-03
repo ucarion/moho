@@ -24,7 +24,7 @@ module Moho
         when 'if'
           pred, conseq, alt = arguments[0], arguments[1], arguments[2]
 
-          if pred.value
+          if pred.eval(env)
             conseq
           else
             alt
