@@ -13,7 +13,10 @@ module Moho
 
       def self.global_functions
         {
-          '+' => -> (args) { args[0] + args[1] }
+          '+' => -> (args) { args[0] + args[1] },
+          '-' => -> (args) { args[0] - args[1] },
+          '*' => -> (args) { args[0] * args[1] },
+          '/' => -> (args) { args[0] / args[1] }
         }
       end
     end
@@ -23,14 +26,14 @@ module Moho
 
     class List < Expression
       def eval(env = Environment.global)
-        operator = value[0]
+        operator, *arguments = self.value
 
         case operator.value
         when 'quote'
           value[1]
 
         when 'if'
-          pred, conseq, alt = value[1], value[2], value[3]
+          pred, conseq, alt = arguments[0], arguments[1], arguments[2]
 
           if pred.eval != 0
             conseq
@@ -48,8 +51,8 @@ module Moho
           end
 
         else
-          arguments = value[1..-1].map { |exp| exp.eval(env) }
-          operator.eval(env).call(arguments)
+          evaled_arguments = arguments.map { |exp| exp.eval(env) }
+          operator.eval(env).call(evaled_arguments)
         end
       end
     end
