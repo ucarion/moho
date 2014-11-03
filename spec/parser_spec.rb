@@ -26,4 +26,19 @@ describe Moho::Parser do
 
     expect(Moho::Parser.parse(tokens)).to eq ast
   end
+
+  it 'parses nested lists' do
+    tokens = Moho::Lexer.tokenize('(+ 1 (* 2 3))')
+    ast = Moho::Lang::List.new([
+      Moho::Lang::Symbol.new('+'),
+      Moho::Lang::Int.new(1),
+      Moho::Lang::List.new([
+        Moho::Lang::Symbol.new('*'),
+        Moho::Lang::Int.new(2),
+        Moho::Lang::Int.new(3)
+      ])
+    ])
+
+    expect(Moho::Parser.parse(tokens)).to eq ast
+  end
 end
