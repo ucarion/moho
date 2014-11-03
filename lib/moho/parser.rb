@@ -1,16 +1,24 @@
 module Moho
   class Parser
-    def self.parse(tokens)
-      token = tokens[0]
+    class << self
+      def parse(tokens)
+        token = tokens[0]
 
-      case token
-      when Lexer::Int
-        Lang::Int.new(token.text.to_i)
-      when Lexer::String
-        without_quotes = token.text[1...-1]
-        Lang::String.new(without_quotes)
-      when Lexer::Symbol
-        Lang::Symbol.new(token.text)
+        case token
+        when Lexer::Int
+          handle_literal(token, Lang::Int, &:to_i)
+        when Lexer::String
+          # we need to remove the intial and final quotes on the string.
+          handle_literal(token, Lang::String) { |text| text[1...-1] }
+        when Lexer::Symbol
+          handle_literal(token, Lang::Symbol, &:to_s)
+        end
+      end
+
+      private
+
+      def handle_literal(token, klass, &block)
+        klass.new(block.call(token.text))
       end
     end
   end
