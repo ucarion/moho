@@ -7,6 +7,10 @@ module Moho
         token = tokens.shift
 
         case token
+        when Lexer::BoolTrue
+          handle_literal(token, Lang::Bool) { true }
+        when Lexer::BoolFalse
+          handle_literal(token, Lang::Bool) { false }
         when Lexer::Int
           handle_literal(token, Lang::Int, &:to_i)
         when Lexer::String

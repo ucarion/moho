@@ -57,6 +57,12 @@ module Moho
       end
     end
 
+    class Bool < Expression
+      def eval(env = Environment.global)
+        value
+      end
+    end
+
     class Int < Expression
       def eval(env = Environment.global)
         value

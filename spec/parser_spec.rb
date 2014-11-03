@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe Moho::Parser do
+  it 'parses boolean literals' do
+    tokens = Moho::Lexer.tokenize('#t')
+    expect(Moho::Parser.parse(tokens)).to eq Moho::Lang::Bool.new(true)
+
+    tokens = Moho::Lexer.tokenize('#f')
+    expect(Moho::Parser.parse(tokens)).to eq Moho::Lang::Bool.new(false)
+  end
+
   it 'parses integer literals' do
     tokens = Moho::Lexer.tokenize('1')
     expect(Moho::Parser.parse(tokens)).to eq Moho::Lang::Int.new(1)
