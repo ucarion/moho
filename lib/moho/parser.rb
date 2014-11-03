@@ -2,6 +2,8 @@ module Moho
   class Parser
     class << self
       def parse(tokens)
+        raise ParseError if tokens.empty?
+        raise ParseError if tokens[0].is_a?(Lexer::RParen)
         token = tokens.shift
 
         case token
@@ -27,6 +29,9 @@ module Moho
       def handle_literal(token, klass, &block)
         klass.new(block.call(token.text))
       end
+    end
+
+    class ParseError < StandardError
     end
   end
 end

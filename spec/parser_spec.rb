@@ -41,4 +41,14 @@ describe Moho::Parser do
 
     expect(Moho::Parser.parse(tokens)).to eq ast
   end
+
+  it 'raises an error on bad parse' do
+    strs = ['(a b c', ') a']
+
+    strs.each do |str|
+      expect do
+        Moho::Parser.parse(Moho::Lexer.tokenize(str))
+      end.to raise_error(Moho::Parser::ParseError)
+    end
+  end
 end
