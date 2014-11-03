@@ -12,4 +12,24 @@ describe Moho::Lang do
   it 'evaluates symbols' do
     expect(Moho::Lang::Symbol.new('a').eval).to eq :a
   end
+
+  it 'works with quote' do
+    str = '(quote (1))'
+    expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
+
+    list = Moho::Lang::List.new([Moho::Lang::Int.new(1)])
+    expect(expression.eval).to eq list
+  end
+
+  it 'works with if' do
+    str = '(if 1 "yes" "no")'
+    expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
+
+    expect(expression.eval).to eq 'yes'
+
+    str = '(if 0 "yes" "no")'
+    expression = Moho::Parser.parse(Moho::Lexer.tokenize(str))
+
+    expect(expression.eval).to eq 'no'
+  end
 end
