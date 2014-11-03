@@ -31,6 +31,11 @@ describe Moho::Lexer do
     end
   end
 
+  it "tokenizes booleans" do
+    expect(Moho::Lexer.tokenize("#t")).to eq [Moho::Lexer::BoolTrue.new('#t')]
+    expect(Moho::Lexer.tokenize("#f")).to eq [Moho::Lexer::BoolFalse.new('#f')]
+  end
+
   it "puts it all together" do
     str = "(a 1 \"s\")"
     tokens = [

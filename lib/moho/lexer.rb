@@ -24,6 +24,8 @@ module Moho
         try_match(str, Whitespace, /\s+/) or
           try_match(str, LParen, /\(/) or
           try_match(str, RParen, /\)/) or
+          try_match(str, BoolTrue, /#t/) or
+          try_match(str, BoolFalse, /#f/) or
           try_match(str, Int, /\d+/) or
           try_match(str, String, STRING_REGEX) or
           try_match(str, Symbol, SYMBOL_REGEX) or
@@ -55,6 +57,12 @@ module Moho
     end
 
     class RParen < Token
+    end
+
+    class BoolTrue < Token
+    end
+
+    class BoolFalse < Token
     end
 
     class Int < Token
