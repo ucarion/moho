@@ -3,24 +3,6 @@ module Moho
     class Expression < Struct.new(:value)
     end
 
-    class Int < Expression
-      def eval
-        value
-      end
-    end
-
-    class String < Expression
-      def eval
-        value
-      end
-    end
-
-    class Symbol < Expression
-      def eval
-        value.to_sym
-      end
-    end
-
     class List < Expression
       def eval
         operator = value[0].eval
@@ -37,6 +19,24 @@ module Moho
             alt.eval
           end
         end
+      end
+    end
+
+    class Int < Expression
+      def eval
+        value
+      end
+    end
+
+    class String < Expression
+      def eval
+        value
+      end
+    end
+
+    class Symbol < Expression
+      def eval
+        value.to_sym
       end
     end
   end
