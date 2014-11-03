@@ -10,4 +10,9 @@ describe Moho::Parser do
     tokens = Moho::Lexer.tokenize('"a"')
     expect(Moho::Parser.parse(tokens)).to eq Moho::Lang::String.new('a')
   end
+
+  it 'parses symbols' do
+    tokens = Moho::Lexer.tokenize('a')
+    expect(Moho::Parser.parse(tokens)).to eq Moho::Lang::Symbol.new('a')
+  end
 end

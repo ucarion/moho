@@ -9,6 +9,8 @@ module Moho
       when Lexer::String
         without_quotes = token.text[1...-1]
         Lang::String.new(without_quotes)
+      when Lexer::Symbol
+        Lang::Symbol.new(token.text)
       end
     end
   end

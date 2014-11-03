@@ -8,5 +8,8 @@ module Moho
 
     class String < Expression
     end
+
+    class Symbol < Expression
+    end
   end
 end
