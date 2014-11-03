@@ -6,18 +6,7 @@ module Moho
       end
 
       def self.global
-        new(global_functions, nil)
-      end
-
-      private
-
-      def self.global_functions
-        {
-          '+' => -> (args) { args[0] + args[1] },
-          '-' => -> (args) { args[0] - args[1] },
-          '*' => -> (args) { args[0] * args[1] },
-          '/' => -> (args) { args[0] / args[1] }
-        }
+        Stdlib.env
       end
     end
 
